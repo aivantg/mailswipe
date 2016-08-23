@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +16,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
         // Override point for customization after application launch.
+        FIRApp.configure()
+        FIRDatabase.database().persistenceEnabled = true
+        FIRAuth.auth()?.signInAnonymously(completion: { (user, error) in
+            guard error == nil else {
+                print("Error Authenticating User. Error: \(error?.localizedDescription)")
+                return
+            }
+            print("User ID: \(user?.uid ?? "No ID")")
+        })
+        
         return true
     }
 

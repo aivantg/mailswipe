@@ -7,14 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2324C829B25CFD49BD4BAD72 /* Pods_MailSwipe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 314FE50219DC3607C500849C /* Pods_MailSwipe.framework */; };
 		A35932601D6C196200B3AFE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A359325F1D6C196200B3AFE7 /* AppDelegate.swift */; };
 		A35932621D6C196200B3AFE7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35932611D6C196200B3AFE7 /* ViewController.swift */; };
 		A35932651D6C196200B3AFE7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A35932631D6C196200B3AFE7 /* Main.storyboard */; };
 		A35932671D6C196200B3AFE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A35932661D6C196200B3AFE7 /* Assets.xcassets */; };
 		A359326A1D6C196200B3AFE7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A35932681D6C196200B3AFE7 /* LaunchScreen.storyboard */; };
+		A35932721D6C23A000B3AFE7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A35932711D6C23A000B3AFE7 /* GoogleService-Info.plist */; };
+		A35932741D6C400700B3AFE7 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35932731D6C400700B3AFE7 /* String+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		08134F75BC3112F98036A1D7 /* Pods-MailSwipe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailSwipe.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MailSwipe/Pods-MailSwipe.debug.xcconfig"; sourceTree = "<group>"; };
+		314FE50219DC3607C500849C /* Pods_MailSwipe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MailSwipe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		33726683885199C6FF3B0435 /* Pods-MailSwipe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailSwipe.release.xcconfig"; path = "Pods/Target Support Files/Pods-MailSwipe/Pods-MailSwipe.release.xcconfig"; sourceTree = "<group>"; };
 		A359325C1D6C196200B3AFE7 /* MailSwipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MailSwipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A359325F1D6C196200B3AFE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A35932611D6C196200B3AFE7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +28,8 @@
 		A35932661D6C196200B3AFE7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A35932691D6C196200B3AFE7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A359326B1D6C196200B3AFE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A35932711D6C23A000B3AFE7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A35932731D6C400700B3AFE7 /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Extension.swift"; path = "Extensions/String+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +37,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2324C829B25CFD49BD4BAD72 /* Pods_MailSwipe.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A168A2AEFCA40D6DF9BD5636 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				314FE50219DC3607C500849C /* Pods_MailSwipe.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A35932531D6C196100B3AFE7 = {
 			isa = PBXGroup;
 			children = (
 				A359325E1D6C196200B3AFE7 /* MailSwipe */,
 				A359325D1D6C196200B3AFE7 /* Products */,
+				C9CB8344FA6B5D8D7788429F /* Pods */,
+				A168A2AEFCA40D6DF9BD5636 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,6 +73,8 @@
 		A359325E1D6C196200B3AFE7 /* MailSwipe */ = {
 			isa = PBXGroup;
 			children = (
+				A35932751D6C400B00B3AFE7 /* Extensions */,
+				A35932711D6C23A000B3AFE7 /* GoogleService-Info.plist */,
 				A359325F1D6C196200B3AFE7 /* AppDelegate.swift */,
 				A35932611D6C196200B3AFE7 /* ViewController.swift */,
 				A35932631D6C196200B3AFE7 /* Main.storyboard */,
@@ -64,6 +85,23 @@
 			path = MailSwipe;
 			sourceTree = "<group>";
 		};
+		A35932751D6C400B00B3AFE7 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A35932731D6C400700B3AFE7 /* String+Extension.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		C9CB8344FA6B5D8D7788429F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				08134F75BC3112F98036A1D7 /* Pods-MailSwipe.debug.xcconfig */,
+				33726683885199C6FF3B0435 /* Pods-MailSwipe.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -71,9 +109,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A359326E1D6C196200B3AFE7 /* Build configuration list for PBXNativeTarget "MailSwipe" */;
 			buildPhases = (
+				900CF043EABBE22179EAF5D8 /* Check Pods Manifest.lock */,
 				A35932581D6C196200B3AFE7 /* Sources */,
 				A35932591D6C196200B3AFE7 /* Frameworks */,
 				A359325A1D6C196200B3AFE7 /* Resources */,
+				B7756FE535DF293757AED36D /* Embed Pods Frameworks */,
+				48757CD108B915F7F3A20221 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -125,6 +166,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A359326A1D6C196200B3AFE7 /* LaunchScreen.storyboard in Resources */,
+				A35932721D6C23A000B3AFE7 /* GoogleService-Info.plist in Resources */,
 				A35932671D6C196200B3AFE7 /* Assets.xcassets in Resources */,
 				A35932651D6C196200B3AFE7 /* Main.storyboard in Resources */,
 			);
@@ -132,12 +174,61 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		48757CD108B915F7F3A20221 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MailSwipe/Pods-MailSwipe-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		900CF043EABBE22179EAF5D8 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B7756FE535DF293757AED36D /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MailSwipe/Pods-MailSwipe-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A35932581D6C196200B3AFE7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				A35932621D6C196200B3AFE7 /* ViewController.swift in Sources */,
+				A35932741D6C400700B3AFE7 /* String+Extension.swift in Sources */,
 				A35932601D6C196200B3AFE7 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -259,6 +350,7 @@
 		};
 		A359326F1D6C196200B3AFE7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 08134F75BC3112F98036A1D7 /* Pods-MailSwipe.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = WRDKFK258V;
@@ -272,6 +364,7 @@
 		};
 		A35932701D6C196200B3AFE7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 33726683885199C6FF3B0435 /* Pods-MailSwipe.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = WRDKFK258V;
@@ -302,6 +395,7 @@
 				A35932701D6C196200B3AFE7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

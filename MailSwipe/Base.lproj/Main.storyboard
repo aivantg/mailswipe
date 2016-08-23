@@ -15,21 +15,38 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S6F-Ki-Mkk">
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have no emails right now. Try adding one!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ubs-xd-K1s">
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Ubs-xd-K1s" secondAttribute="trailing" constant="20" symbolic="YES" id="3mp-yo-Ccs"/>
+                                    <constraint firstItem="Ubs-xd-K1s" firstAttribute="leading" secondItem="S6F-Ki-Mkk" secondAttribute="leading" constant="20" symbolic="YES" id="Ebe-aO-oRs"/>
+                                    <constraint firstItem="Ubs-xd-K1s" firstAttribute="top" secondItem="S6F-Ki-Mkk" secondAttribute="top" constant="20" symbolic="YES" id="QNn-ms-aaN"/>
+                                    <constraint firstItem="Ubs-xd-K1s" firstAttribute="centerY" secondItem="S6F-Ki-Mkk" secondAttribute="centerY" id="i4V-Zc-4zN"/>
+                                    <constraint firstAttribute="bottom" secondItem="Ubs-xd-K1s" secondAttribute="bottom" constant="20" symbolic="YES" id="n06-il-1pU"/>
+                                </constraints>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5lG-Ut-jZD">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MainPageCell" textLabel="4Lf-M1-4AI" style="IBUITableViewCellStyleDefault" id="oiz-zf-E8D">
-                                        <rect key="frame" x="0.0" y="92" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oiz-zf-E8D" id="cXI-FK-yH2">
-                                            <frame key="frameInset" width="381" height="43.666666666666664"/>
+                                            <frame key="frameInset" width="342" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4Lf-M1-4AI">
-                                                    <frame key="frameInset" minX="15" width="364" height="43.666666666666664"/>
+                                                    <frame key="frameInset" minX="15" width="325" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -43,20 +60,30 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="5lG-Ut-jZD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Bcg-Dr-nRv"/>
-                            <constraint firstItem="5lG-Ut-jZD" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Nih-oT-TgP"/>
-                            <constraint firstItem="5lG-Ut-jZD" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="Xd2-ri-9to"/>
-                            <constraint firstAttribute="trailing" secondItem="5lG-Ut-jZD" secondAttribute="trailing" id="fRF-3C-px3"/>
+                            <constraint firstItem="5lG-Ut-jZD" firstAttribute="trailing" secondItem="S6F-Ki-Mkk" secondAttribute="trailing" id="08C-sc-Rek"/>
+                            <constraint firstItem="5lG-Ut-jZD" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="2kD-lB-Hmk"/>
+                            <constraint firstItem="5lG-Ut-jZD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="3Ch-8v-KZI"/>
+                            <constraint firstItem="5lG-Ut-jZD" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="798-Q8-PHS"/>
+                            <constraint firstItem="5lG-Ut-jZD" firstAttribute="bottom" secondItem="S6F-Ki-Mkk" secondAttribute="bottom" id="Ih0-9b-CFS"/>
+                            <constraint firstAttribute="trailing" secondItem="5lG-Ut-jZD" secondAttribute="trailing" id="K6P-Yi-cMJ"/>
+                            <constraint firstItem="5lG-Ut-jZD" firstAttribute="top" secondItem="S6F-Ki-Mkk" secondAttribute="top" id="lbX-gd-7j7"/>
+                            <constraint firstItem="5lG-Ut-jZD" firstAttribute="leading" secondItem="S6F-Ki-Mkk" secondAttribute="leading" id="mUt-kR-wAG"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="MailSwipe" id="u8s-wA-wMF"/>
+                    <navigationItem key="navigationItem" title="MailSwipe" id="u8s-wA-wMF">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="2bW-TM-Mlz">
+                            <connections>
+                                <action selector="addEmail:" destination="BYZ-38-t0r" id="vA0-Qg-5Xj"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="5lG-Ut-jZD" id="vjY-1I-ZFL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1217.3913043478262" y="136.95652173913044"/>
+            <point key="canvasLocation" x="1216.8" y="136.28185907046478"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="C9d-uD-GO3">
