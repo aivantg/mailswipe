@@ -3,13 +3,14 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11156"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--MailSwipe-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="MailSwipe" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MailSwipeViewController" customModule="MailSwipe" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -54,6 +55,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="AdZ-dE-3Zh" kind="presentation" identifier="Edit Email Segue" id="lRF-Ke-8PW"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -74,6 +78,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="2bW-TM-Mlz">
                             <connections>
                                 <action selector="addEmail:" destination="BYZ-38-t0r" id="vA0-Qg-5Xj"/>
+                                <segue destination="AdZ-dE-3Zh" kind="presentation" id="YvA-MN-hbx"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -84,6 +89,134 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1216.8" y="136.28185907046478"/>
+        </scene>
+        <!--New Email-->
+        <scene sceneID="T9D-hV-Rc6">
+            <objects>
+                <viewController id="fWI-zo-MpU" customClass="EmailViewController" customModule="MailSwipe" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4G3-6d-Mic"/>
+                        <viewControllerLayoutGuide type="bottom" id="KV1-M3-Wff"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bqj-bU-DbR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7UC-i6-itx">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BHb-3p-yRK">
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meeting Time:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dai-3e-VWf">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qSZ-LH-JE6">
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repeat:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FKH-c2-gCT">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1op-Xz-ir8" customClass="NiceButton" customModule="MailSwipe" customModuleProvider="target">
+                                <state key="normal" title="Weekly"/>
+                                <connections>
+                                    <action selector="showRepeatDropdown" destination="fWI-zo-MpU" eventType="touchUpInside" id="4WW-TX-JPg"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Split w/ commas or paste in!" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="G4w-sC-r96">
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recipients:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4n6-zh-sIM">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" text="Hi Everyone! Welcome to my club." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hVi-GC-ZJV">
+                                <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bTY-jK-F4i">
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NyR-Qq-EBa">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="BHb-3p-yRK" firstAttribute="top" secondItem="4G3-6d-Mic" secondAttribute="bottom" constant="8" symbolic="YES" id="05b-bp-JHz"/>
+                            <constraint firstItem="bTY-jK-F4i" firstAttribute="top" secondItem="qSZ-LH-JE6" secondAttribute="bottom" constant="8" symbolic="YES" id="5FZ-pw-Nhw"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="bTY-jK-F4i" secondAttribute="trailing" id="6fI-ww-Uot"/>
+                            <constraint firstItem="1op-Xz-ir8" firstAttribute="leading" secondItem="FKH-c2-gCT" secondAttribute="trailing" constant="8" symbolic="YES" id="7Kf-JX-85h"/>
+                            <constraint firstItem="4n6-zh-sIM" firstAttribute="leading" secondItem="FKH-c2-gCT" secondAttribute="leading" id="7yh-dT-gxD"/>
+                            <constraint firstItem="BHb-3p-yRK" firstAttribute="leading" secondItem="7UC-i6-itx" secondAttribute="trailing" constant="8" symbolic="YES" id="8Vz-OF-kes"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="FKH-c2-gCT" secondAttribute="leading" id="D8J-BN-sjt"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="hVi-GC-ZJV" secondAttribute="leading" id="DMu-kt-z5T"/>
+                            <constraint firstItem="7UC-i6-itx" firstAttribute="leading" secondItem="bqj-bU-DbR" secondAttribute="leadingMargin" id="GSK-2v-Pp5"/>
+                            <constraint firstItem="BHb-3p-yRK" firstAttribute="trailing" secondItem="bqj-bU-DbR" secondAttribute="trailingMargin" id="Hf8-fN-DjP"/>
+                            <constraint firstItem="hVi-GC-ZJV" firstAttribute="top" secondItem="1op-Xz-ir8" secondAttribute="bottom" constant="8" symbolic="YES" id="JRp-JK-tQC"/>
+                            <constraint firstItem="1op-Xz-ir8" firstAttribute="baseline" secondItem="FKH-c2-gCT" secondAttribute="baseline" id="L7g-IG-tcX"/>
+                            <constraint firstAttribute="bottom" secondItem="hVi-GC-ZJV" secondAttribute="bottom" constant="20" symbolic="YES" id="M5D-4f-XqA"/>
+                            <constraint firstItem="qSZ-LH-JE6" firstAttribute="top" secondItem="BHb-3p-yRK" secondAttribute="bottom" constant="8" symbolic="YES" id="OxG-3x-eJv"/>
+                            <constraint firstItem="NyR-Qq-EBa" firstAttribute="baseline" secondItem="bTY-jK-F4i" secondAttribute="baseline" id="WjU-vf-bag"/>
+                            <constraint firstItem="qSZ-LH-JE6" firstAttribute="leading" secondItem="Dai-3e-VWf" secondAttribute="trailing" constant="8" symbolic="YES" id="Xuv-sK-mu8"/>
+                            <constraint firstItem="hVi-GC-ZJV" firstAttribute="trailing" secondItem="G4w-sC-r96" secondAttribute="trailing" id="YPt-Q4-YXm"/>
+                            <constraint firstItem="1op-Xz-ir8" firstAttribute="trailing" secondItem="G4w-sC-r96" secondAttribute="trailing" id="ZHq-1d-6X7"/>
+                            <constraint firstItem="G4w-sC-r96" firstAttribute="top" secondItem="bTY-jK-F4i" secondAttribute="bottom" constant="8" symbolic="YES" id="acN-yS-5n4"/>
+                            <constraint firstItem="Dai-3e-VWf" firstAttribute="leading" secondItem="7UC-i6-itx" secondAttribute="leading" id="dNf-5F-6Nw"/>
+                            <constraint firstItem="4n6-zh-sIM" firstAttribute="baseline" secondItem="G4w-sC-r96" secondAttribute="baseline" id="ewu-pj-lPd"/>
+                            <constraint firstItem="qSZ-LH-JE6" firstAttribute="trailing" secondItem="BHb-3p-yRK" secondAttribute="trailing" id="gIF-m9-t1i"/>
+                            <constraint firstItem="1op-Xz-ir8" firstAttribute="top" secondItem="G4w-sC-r96" secondAttribute="bottom" constant="8" symbolic="YES" id="qN2-g6-0Qd"/>
+                            <constraint firstItem="7UC-i6-itx" firstAttribute="baseline" secondItem="BHb-3p-yRK" secondAttribute="baseline" id="qaG-fC-Wku"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="NyR-Qq-EBa" secondAttribute="leading" id="qax-og-TzV"/>
+                            <constraint firstItem="1op-Xz-ir8" firstAttribute="trailing" secondItem="bTY-jK-F4i" secondAttribute="trailing" id="rn5-T5-wo0"/>
+                            <constraint firstItem="G4w-sC-r96" firstAttribute="leading" secondItem="4n6-zh-sIM" secondAttribute="trailing" constant="8" symbolic="YES" id="sUt-Qi-byz"/>
+                            <constraint firstItem="bTY-jK-F4i" firstAttribute="leading" secondItem="NyR-Qq-EBa" secondAttribute="trailing" constant="8" symbolic="YES" id="ynC-Cf-wNw"/>
+                            <constraint firstItem="Dai-3e-VWf" firstAttribute="baseline" secondItem="qSZ-LH-JE6" secondAttribute="baseline" id="zRX-ux-zYF"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="New Email" id="6zb-7u-KXC">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="wvq-u4-k7s">
+                            <connections>
+                                <segue destination="68i-CF-bDu" kind="unwind" unwindAction="newEmailCancelledWithSegue:" id="NL5-Xz-uQA"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Od7-6x-gGf">
+                            <connections>
+                                <action selector="saveEmail:" destination="fWI-zo-MpU" id="u4E-sq-4fR"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="bodyTextView" destination="hVi-GC-ZJV" id="qkC-EF-bWE"/>
+                        <outlet property="dateTextField" destination="qSZ-LH-JE6" id="fsU-yB-aLU"/>
+                        <outlet property="locationTextField" destination="bTY-jK-F4i" id="5E4-ZS-Nqk"/>
+                        <outlet property="nameTextField" destination="BHb-3p-yRK" id="qlk-BO-H3N"/>
+                        <outlet property="recipientTextField" destination="G4w-sC-r96" id="HrH-CJ-mhN"/>
+                        <outlet property="repeatButton" destination="1op-Xz-ir8" id="mBB-AQ-NAO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ygt-mO-pPn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="68i-CF-bDu" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="3048.8000000000002" y="135.38230884557723"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="C9d-uD-GO3">
@@ -103,5 +236,26 @@
             </objects>
             <point key="canvasLocation" x="310.14492753623193" y="136.95652173913044"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="y6y-zs-N03">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="AdZ-dE-3Zh" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="4W6-ga-1t5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="fWI-zo-MpU" kind="relationship" relationship="rootViewController" id="TXY-P1-hCN"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="06M-eO-SBb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2109.5999999999999" y="135.38230884557723"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="lRF-Ke-8PW"/>
+    </inferredMetricsTieBreakers>
 </document>

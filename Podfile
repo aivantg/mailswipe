@@ -7,5 +7,6 @@ target 'MailSwipe' do
   pod 'Firebase'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
+  pod 'DropDown'
 end
 

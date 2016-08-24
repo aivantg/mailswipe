@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "99ED6436D5543C48694A33136E61057E"
-               BuildableName = "Pods_MailSwipe.framework"
-               BlueprintName = "Pods-MailSwipe"
+               BlueprintIdentifier = "9F766ADB76A46AB732825D44C4BAAABF"
+               BuildableName = "DropDown.framework"
+               BlueprintName = "DropDown"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "99ED6436D5543C48694A33136E61057E"
-            BuildableName = "Pods_MailSwipe.framework"
-            BlueprintName = "Pods-MailSwipe"
+            BlueprintIdentifier = "9F766ADB76A46AB732825D44C4BAAABF"
+            BuildableName = "DropDown.framework"
+            BlueprintName = "DropDown"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

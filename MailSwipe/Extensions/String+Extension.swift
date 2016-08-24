@@ -10,8 +10,17 @@ import Foundation
 
 extension String
 {
-    func removeSpaces() -> String
-    {
+    func removeSpaces() -> String {
         return self.replacingOccurrences(of: " ", with: "")
+    }
+    
+    func trim() -> String {
+        return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+    }
+    
+    var containsText : Bool {
+        get {
+            return !isEmpty
+        }
     }
 }

@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import DropDown
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -27,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             print("User ID: \(user?.uid ?? "No ID")")
         })
+        
+        DropDown.startListeningToKeyboard()
         
         return true
     }
