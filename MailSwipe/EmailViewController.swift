@@ -16,6 +16,8 @@ class EmailViewController: UIViewController {
     var existingEmail : Email?
     
     var selectedDate : Date?
+    
+    @IBOutlet weak var bodyTextViewBottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var nameTextField: UITextField! {
         didSet{
@@ -37,7 +39,7 @@ class EmailViewController: UIViewController {
             doneToolbar.barStyle = .default
             doneToolbar.items = [
                 UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-                UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(finishDatePicker))]
+                UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(finishDatePicker))]
             doneToolbar.sizeToFit()
             dateTextField.inputAccessoryView = doneToolbar
             dateTextField.inputView = datePicker
@@ -64,25 +66,46 @@ class EmailViewController: UIViewController {
             doneToolbar.barStyle = .default
             doneToolbar.items = [
                 UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-                UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(finishBodyTextView))]
+                UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(finishBodyTextView))]
             doneToolbar.sizeToFit()
             bodyTextView.inputAccessoryView = doneToolbar
         }
     }
     @IBOutlet weak var repeatButton: NiceButton!
     
+    var keyboardHeight : CGFloat = 0
+    var keyboardAnimationDuration : Double = 0.1
+
     let repeatDropdown = DropDown()
     
-    var keyboardFrame : CGRect?
     
     //MARK: - View Controller Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         nameTextField.becomeFirstResponder()
+        
+
         updateBodyTextViewText()
         setupDropDown()
         checkExistingEmail()
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(notification:)), name: Notification.Name.UIKeyboardDidShow, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    func keyboardDidShow(notification: Notification){
+        keyboardHeight = CGFloat((notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 8)
+        keyboardAnimationDuration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double) ?? 0.1
+        print("Found Keyboard Height: \(keyboardHeight)")
+        
     }
     
     //MARK: - Firebase Saving
@@ -246,7 +269,9 @@ class EmailViewController: UIViewController {
 
 }
 
-extension EmailViewController : UITextFieldDelegate, UITextViewDelegate{
+extension EmailViewController : UITextFieldDelegate{
+    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField.tag < 5 {
             view.viewWithTag(textField.tag + 1)?.becomeFirstResponder()
@@ -263,5 +288,23 @@ extension EmailViewController : UITextFieldDelegate, UITextViewDelegate{
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         updateBodyTextViewText()
+    }
+}
+
+extension EmailViewController : UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        self.view.layoutIfNeeded()
+        bodyTextViewBottomConstraint.constant = keyboardHeight
+        UIView.animate(withDuration: keyboardAnimationDuration) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        self.view.layoutIfNeeded()
+        bodyTextViewBottomConstraint.constant = 8
+        UIView.animate(withDuration: keyboardAnimationDuration) {
+            self.view.layoutIfNeeded()
+        }
     }
 }

@@ -144,7 +144,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" text="Hi Everyone! Welcome to my club." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hVi-GC-ZJV">
-                                <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -206,6 +206,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="hVi-GC-ZJV" id="qkC-EF-bWE"/>
+                        <outlet property="bodyTextViewBottomConstraint" destination="M5D-4f-XqA" id="cXp-Ss-aHN"/>
                         <outlet property="dateTextField" destination="qSZ-LH-JE6" id="fsU-yB-aLU"/>
                         <outlet property="locationTextField" destination="bTY-jK-F4i" id="5E4-ZS-Nqk"/>
                         <outlet property="nameTextField" destination="BHb-3p-yRK" id="qlk-BO-H3N"/>
