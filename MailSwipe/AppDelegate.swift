@@ -12,14 +12,25 @@ import DropDown
 import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        // Override point for customization after application launch.
+        // Register for Local Notifications
+        let center = UNUserNotificationCenter.current()
+        let sendAction = UNNotificationAction(identifier: "send", title: "Send", options: [])
+        let category = UNNotificationCategory(identifier: "email", actions: [sendAction], intentIdentifiers: [], options: [.customDismissAction])
+        center.setNotificationCategories([category])
+        center.requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
+            // Enable or disable features based on authorization.
+        }
+        center.delegate = self
+        
+        
+        // Setup Firebase
         FIRApp.configure()
         FIRDatabase.database().persistenceEnabled = true
         FIRAuth.auth()?.signInAnonymously(completion: { (user, error) in
@@ -30,34 +41,64 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("User ID: \(user?.uid ?? "No ID")")
         })
         
+        // Setup DropDown
         DropDown.startListeningToKeyboard()
+        
 
         
         return true
     }
-
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+    
+    func handleNotification(forEmailInfo emailInfo: EmailInfo){
+        guard let viewController = window?.rootViewController?.contentViewController else {
+            print("Couldn't get view controller")
+            return
+        }
+        
+        var message = "It's time to send the notification for \(emailInfo["name"]!)!"
+        if viewController.presentedViewController != nil {
+            print("Email View!")
+            message += " Go back to the main screen to send it."
+        }
+        let alert = UIAlertController(title: "Email Reminder", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        (viewController.presentedViewController ?? viewController).present(alert, animated: true, completion: nil)
     }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: () -> Void) {
+        guard let emailInfo = response.notification.request.content.userInfo as? EmailInfo else {
+            completionHandler()
+            return
+        }
+        
+        if let mailVC = window?.rootViewController?.contentViewController as? MailSwipeViewController {
+            if mailVC.presentedViewController != nil {
+                mailVC.dismiss(animated: true, completion: {
+                    mailVC.openEmailEditor(forEmailInfo: emailInfo)
+                })
+            }else {
+                mailVC.openEmailEditor(forEmailInfo: emailInfo)
+            }
+        }else {
+            let mailVC = UIStoryboard(name: "main", bundle: nil).instantiateInitialViewController()?.contentViewController as! MailSwipeViewController
+            window?.rootViewController = mailVC
+            mailVC.openEmailEditor(forEmailInfo: emailInfo)
+        }
+        completionHandler()
+    
     }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void) {
+        
+        guard let emailInfo = notification.request.content.userInfo as? EmailInfo else {
+            completionHandler([])
+            return
+        }
+        handleNotification(forEmailInfo: emailInfo)
+        completionHandler([])
+        
     }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-
 
 }
 

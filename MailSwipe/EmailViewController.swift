@@ -9,7 +9,16 @@
 import UIKit
 import DropDown
 import Firebase
+import UserNotifications
 
+enum RemindInterval : String {
+    case weekly = "Weekly"
+    case monthly = "Monthly"
+    
+    static func getAll() -> [String]{
+        return ["Weekly", "Monthly"]
+    }
+}
 
 class EmailViewController: UIViewController {
     
@@ -32,7 +41,7 @@ class EmailViewController: UIViewController {
             
             let datePicker = UIDatePicker()
             datePicker.datePickerMode = .dateAndTime
-            datePicker.date = getDate(fromServerString: (existingEmail?.info["date"] as? String) ?? "") ?? Date()
+            datePicker.date = Date.getDate(fromServerString: (existingEmail?.info["date"] as? String) ?? "") ?? Date()
             datePicker.addTarget(self, action: #selector(updateMeetingTimeText(sender:)), for: .valueChanged)
             
             let doneToolbar = UIToolbar()
@@ -119,7 +128,53 @@ class EmailViewController: UIViewController {
         let emailId = existingEmail != nil ? existingEmail!.id : email.id
         let ref = FIRDatabase.database().reference().child("users/\(uid)/\(emailId)")
         ref.setValue(email.info)
-        self.presentingViewController?.dismiss(animated: true, completion: nil)
+        showAlert(title: "Reminders Scheduled!", message: "MailSwipe will now send you a notification 24 hours before the club meeting reminding you to send your email!", action: {
+            self.scheduleNotifications(forEmail: email, withName: email.info["name"]! as! String, withDate: self.selectedDate!)
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
+
+        })
+    }
+    
+    func scheduleNotifications(forEmail email: Email, withName name: String, withDate date: Date){
+        
+        let center = UNUserNotificationCenter.current()
+        var newIdentifier = "\(email.id)-\(String.randomStringWithLength(length: 5))"
+        if let existingIdentifier = UserDefaults.standard.object(forKey: email.id) as? String {
+            center.removePendingNotificationRequests(withIdentifiers: [existingIdentifier])
+            center.removeDeliveredNotifications(withIdentifiers: [existingIdentifier])
+            while (existingIdentifier == newIdentifier) {
+                newIdentifier = "\(email.id)-\(String.randomStringWithLength(length: 5))"
+            }
+        }
+        UserDefaults.standard.set(newIdentifier, forKey: email.id)
+        
+        let notificationContent = UNMutableNotificationContent()
+        notificationContent.title = "MailSwipe"
+        notificationContent.body = "Swipe to send your \(name) email!"
+        notificationContent.userInfo = email.info
+        notificationContent.categoryIdentifier = "email"
+        
+        
+        let calendar = Calendar.current
+        var repeatComponents = DateComponents()
+        var minusDayComponent = DateComponents()
+        minusDayComponent.day = -1
+        let adjustedDate = calendar.date(byAdding: minusDayComponent, to: date)
+        let selectedComponents = calendar.dateComponents([.hour, .minute, .weekday, .weekOfMonth], from: adjustedDate!)
+        repeatComponents.weekday = selectedComponents.weekday
+        repeatComponents.hour = selectedComponents.hour
+        repeatComponents.minute = selectedComponents.minute
+        if repeatButton.titleLabel?.text == RemindInterval.monthly.rawValue {
+            repeatComponents.weekOfMonth = selectedComponents.weekOfMonth
+        }
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: repeatComponents, repeats: true)
+        
+        let emailRequest = UNNotificationRequest(identifier: newIdentifier, content: notificationContent, trigger: trigger)
+        UNUserNotificationCenter.current().add(emailRequest) { (error) in
+            // handle the error if needed
+            print(error)
+        }
     }
     
     func getEmail() -> Email? {
@@ -141,10 +196,19 @@ class EmailViewController: UIViewController {
             return nil
         }
         
-        let recipients = recipientText.components(separatedBy: ",").map() { $0.trim() }
+        var recipients = recipientText.components(separatedBy: ",").map() { $0.trim() }
         guard recipients.count > 0 else { showUnfinishedAlert(); return nil }
+        recipients = recipients.filter { (email) -> Bool in
+            let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+            let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+            return emailTest.evaluate(with: email)
+        }
+        guard recipients.count > 0 else {
+            showAlert(title: "Invalid Email Address", message: "You must enter at least one valid email address.")
+            return nil
+        }
         
-        return (id: name.removeSpaces(), info: ["name" : name, "location" : location, "repeatInterval" : repeatInterval, "body" : body, "recipients" : recipients, "date" : getServerString(fromDate: date)])
+        return (id: name.removeSpaces(), info: ["name" : name, "location" : location, "repeatInterval" : repeatInterval, "body" : body, "recipients" : recipients, "date" : date.getServerString()])
     }
     
         func showUnfinishedAlert(withTitle title: String? = nil, withMessage message: String? = nil){
@@ -156,6 +220,23 @@ class EmailViewController: UIViewController {
     
     
     //MARK: - UI Actions
+    
+    func cancelEmail(){
+        performSegue(withIdentifier: "Exit Segue", sender: nil)
+    }
+
+    @IBAction func importEmails(_ sender: AnyObject) {
+        let googleSheetsUrl = URL(string: "googlesheets://")!
+        let googleDriveUrl = URL(string: "googledrive://")!
+        if UIApplication.shared.canOpenURL(googleSheetsUrl) {
+            UIApplication.shared.open(googleSheetsUrl, options: [:], completionHandler: nil)
+        }else if UIApplication.shared.canOpenURL(googleDriveUrl) {
+            UIApplication.shared.open(googleDriveUrl, options: [:], completionHandler: nil)
+        }else {
+            showAlert(title: "Unable to Import", message: "You must install either the Google Drive app or the Google Sheets app to import.")
+        }
+        
+    }
 
     func updateBodyTextViewText(force: Bool = false){
         guard existingEmail == nil || force else { return }
@@ -168,7 +249,7 @@ class EmailViewController: UIViewController {
         bodyTextView.text = "Hi Everyone!\n\n\(nameText) is going to meet in the \(locationText) this \(dateText). We hope to see you there!\n\nBest,\nYour CoHeads"
     }
     func updateMeetingTimeText(sender: UIDatePicker){
-        dateTextField.text = getReadableString(fromDate: sender.date)
+        dateTextField.text = sender.date.getReadableString()
         selectedDate = sender.date
         updateBodyTextViewText()
         
@@ -182,15 +263,23 @@ class EmailViewController: UIViewController {
         locationTextField.becomeFirstResponder()
     }
     
+    func showAlert(title: String, message: String, action: (() -> Void)? = nil){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
+            action?()
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+    
     //MARK: - Setup
     
     func checkExistingEmail(){
         guard let existingEmail = existingEmail?.info else { return }
         let name = existingEmail["name"] as? String
-        title = "Edit \(name ?? "Email")"
+        title = "Edit"
         
-        let existingDate = getDate(fromServerString: (existingEmail["date"] as? String) ?? "")
-        dateTextField.text = getReadableString(fromDate: existingDate ?? Date())
+        let existingDate = Date.getDate(fromServerString: (existingEmail["date"] as? String) ?? "")
+        dateTextField.text = (existingDate ?? Date()).getReadableString()
     
         if let repeatInterval = existingEmail["repeatInterval"] as? String {
             var index = 1
@@ -205,7 +294,7 @@ class EmailViewController: UIViewController {
         nameTextField.text = name
         locationTextField.text = existingEmail["location"] as? String
         recipientTextField.text = (existingEmail["recipients"] as? [String])?.joined(separator: ", ")
-        selectedDate = getDate(fromServerString: (existingEmail["date"] as? String) ?? "")
+        selectedDate = Date.getDate(fromServerString: (existingEmail["date"] as? String) ?? "")
         bodyTextView.text = existingEmail["body"] as? String
         if bodyTextView.text == nil { updateBodyTextViewText(force: true) }
     }
@@ -218,8 +307,8 @@ class EmailViewController: UIViewController {
         repeatDropdown.anchorView = repeatButton
         repeatDropdown.direction = .bottom
         repeatDropdown.dismissMode = .automatic
-        repeatDropdown.dataSource = ["Daily", "Weekly", "Monthly"]
-        repeatDropdown.selectRowAtIndex(1)
+        repeatDropdown.dataSource = RemindInterval.getAll()
+        repeatDropdown.selectRowAtIndex(0)
         // Top of drop down will be below the anchorView
         repeatDropdown.topOffset = CGPoint(x: 0, y:(repeatDropdown.anchorView?.plainView.bounds.height)!)
         repeatDropdown.selectionAction = {(index: Int, item: String) in
@@ -240,31 +329,9 @@ class EmailViewController: UIViewController {
         //		appearance.textFont = UIFont(name: "Georgia", size: 14)
     }
     
-    //MARK: - Date Functiond
+    //MARK: - Date Functions
     
-    func getDate(fromReadableString string: String) -> Date? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE – hh:mm a"
-        return dateFormatter.date(from: string)
-    }
-    func getDate(fromServerString string: String) -> Date? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEE/hh:mma"
-        return dateFormatter.date(from: string)
-    }
-    
-    func getReadableString(fromDate date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE – hh:mm a"
-        return dateFormatter.string(from: date)
-    }
-    
-    func getServerString(fromDate date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEE/hh:mma"
-        return dateFormatter.string(from: date)
-    }
-    
+
 
 
 }

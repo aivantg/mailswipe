@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11156"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -39,25 +40,29 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5lG-Ut-jZD">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MainPageCell" textLabel="4Lf-M1-4AI" style="IBUITableViewCellStyleDefault" id="oiz-zf-E8D">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MainPageCell" textLabel="4Lf-M1-4AI" detailTextLabel="bcc-ZM-qep" style="IBUITableViewCellStyleSubtitle" id="oiz-zf-E8D">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oiz-zf-E8D" id="cXI-FK-yH2">
-                                            <frame key="frameInset" width="342" height="43"/>
+                                            <frame key="frameInset" width="342" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4Lf-M1-4AI">
-                                                    <frame key="frameInset" minX="15" width="325" height="43"/>
+                                                    <frame key="frameInset" minX="15" minY="5" width="33.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bcc-ZM-qep">
+                                                    <frame key="frameInset" minX="15" minY="25.5" width="44" height="14.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="AdZ-dE-3Zh" kind="presentation" identifier="Edit Email Segue" id="lRF-Ke-8PW"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -75,6 +80,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="MailSwipe" id="u8s-wA-wMF">
+                        <barButtonItem key="leftBarButtonItem" title="Send" id="Ioj-xh-bgR">
+                            <connections>
+                                <action selector="sendEmail:" destination="BYZ-38-t0r" id="acO-Of-jW1"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="2bW-TM-Mlz">
                             <connections>
                                 <action selector="addEmail:" destination="BYZ-38-t0r" id="vA0-Qg-5Xj"/>
@@ -84,6 +94,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="5lG-Ut-jZD" id="vjY-1I-ZFL"/>
+                        <segue destination="AdZ-dE-3Zh" kind="presentation" identifier="Edit Email Segue" id="yyp-uz-215"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -195,14 +206,21 @@
                     <navigationItem key="navigationItem" title="New Email" id="6zb-7u-KXC">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="wvq-u4-k7s">
                             <connections>
-                                <segue destination="68i-CF-bDu" kind="unwind" unwindAction="newEmailCancelledWithSegue:" id="NL5-Xz-uQA"/>
+                                <segue destination="68i-CF-bDu" kind="unwind" identifier="Exit Segue" unwindAction="newEmailCancelledWithSegue:" id="NL5-Xz-uQA"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Od7-6x-gGf">
-                            <connections>
-                                <action selector="saveEmail:" destination="fWI-zo-MpU" id="u4E-sq-4fR"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="save" id="Od7-6x-gGf">
+                                <connections>
+                                    <action selector="saveEmail:" destination="fWI-zo-MpU" id="u4E-sq-4fR"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Import" id="I7W-vf-Sp9">
+                                <connections>
+                                    <action selector="importEmails:" destination="fWI-zo-MpU" id="i2Y-Pd-ChM"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="hVi-GC-ZJV" id="qkC-EF-bWE"/>
@@ -257,6 +275,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="lRF-Ke-8PW"/>
+        <segue reference="yyp-uz-215"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import MessageUI
+import UserNotifications
 
 typealias Email = (id: String, info: EmailInfo)
 typealias EmailInfo = [String : AnyObject]
@@ -22,9 +24,10 @@ class MailSwipeViewController: UIViewController {
             tableView.dataSource = self
         }
     }
-
+    
     var ref : FIRDatabaseReference!
     var needsUpdate = true
+    var sendingEmail = false
     
     var emails = [Email]()
 
@@ -68,16 +71,12 @@ class MailSwipeViewController: UIViewController {
             }
         })
         ref.observe(.childAdded, with: {(dataSnapshot) -> Void in
-            print("Child Added: \(dataSnapshot.value!)")
-            print("Key name: \(dataSnapshot.key)")
             
             guard let data = dataSnapshot.value as? [String : AnyObject] else {
-                print("Getting Data Snapshot Failed")
                 self.tableView.isHidden = true
                 return
             }
             guard (data["name"] as? String) != nil else {
-                print("Key to Name Translation Failed")
                 self.tableView.isHidden = true
                 return
             }
@@ -87,13 +86,17 @@ class MailSwipeViewController: UIViewController {
         })
         
         ref.observe(.childRemoved, with: {(dataSnapshot) -> Void in
-            print("Child Removed: \(dataSnapshot.value)")
             
             let emailIds = self.emails.map({ (email: Email) -> String in
                 return email.id
             })
             
             if let index = emailIds.index(of: dataSnapshot.key){
+                let email = self.emails[index]
+                if let notificationIdentifier = UserDefaults.standard.object(forKey: email.id) as? String{
+                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notificationIdentifier])
+                    UserDefaults.standard.set(nil, forKey: email.id)
+                }
                 self.emails.remove(at: index)
                 self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
             }
@@ -103,11 +106,42 @@ class MailSwipeViewController: UIViewController {
 
     }
     
-    @IBAction func addEmail(_ sender: UIBarButtonItem) {
-        let name = "Random Test Name \(Int(arc4random_uniform(1000)))"
-        print("***\(name.removeSpaces())***")
-        //ref.child(name.removeSpaces()).setValue(["name" : name])
+    @IBAction func sendEmail(_ sender: AnyObject) {
+        showAlert(title: "Send Email", message: "Select an email to send.")
+        sendingEmail = true
     }
+    
+    func showAlert(title: String, message: String, action: (() -> Void)? = nil){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
+            action?()
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func openEmailEditor(forEmailInfo emailInfo: EmailInfo){
+        guard MFMailComposeViewController.canSendMail() else {
+            showAlert(title: "Unable to Send", message: "Please configure your device to send email before trying to send.")
+            return
+        }
+        guard
+            let subject = emailInfo["name"] as? String,
+            let recipients = emailInfo["recipients"] as? [String],
+            let body = emailInfo["body"] as? String else {
+                showAlert(title: "Unable to Get Email", message: "Please try again or delete and re-add this email reminder again.")
+                return
+        }
+        
+        let mailVC = MFMailComposeViewController()
+        mailVC.mailComposeDelegate = self
+        mailVC.setSubject(subject)
+        mailVC.setToRecipients(recipients)
+        mailVC.setMessageBody(body, isHTML: false)
+        
+        present(mailVC, animated: true, completion: nil)
+        
+    }
+
     
     //MARK: - Navigation
     
@@ -119,6 +153,7 @@ class MailSwipeViewController: UIViewController {
     @IBAction func newEmailCancelled(segue: UIStoryboardSegue){
         //New Email Cancelled
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
         guard let identifier = segue.identifier else { return }
@@ -136,8 +171,27 @@ class MailSwipeViewController: UIViewController {
     
 }
 
+extension MailSwipeViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
+        if let error = error {
+            showAlert(title: "Error Sending Mail", message: error.localizedDescription)
+        }
+        
+    }
+}
+
 extension MailSwipeViewController: UITableViewDelegate {
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch sendingEmail {
+        case true:
+            openEmailEditor(forEmailInfo: emails[indexPath.row].info)
+            sendingEmail = false
+        case false: performSegue(withIdentifier: Storyboard.EditEmailSegue, sender: tableView.cellForRow(at: indexPath))
+        }
+    }
+    
     @nonobjc func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -164,11 +218,57 @@ extension MailSwipeViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Storyboard.CellIdentifier, for: indexPath)
-        
-        cell.textLabel?.text = emails[indexPath.row].info["name"] as? String
-        
+        let emailInfo = emails[indexPath.row].info
+        cell.textLabel?.text = emailInfo["name"] as? String
+        if let serverString = emailInfo["date"] as? String {
+            cell.detailTextLabel?.text = getNextMeetingText(fromServerString: serverString, forRemindInterval: RemindInterval(rawValue: (emailInfo["repeatInterval"] as? String) ?? ""))
+        }
         return cell
     }
     
-}
+    func getNextMeetingText(fromServerString serverString: String, forRemindInterval interval: RemindInterval?) -> String? {
+        var date = Date.getDate(fromServerString: serverString)
+        guard date != nil else {
+            return nil
+        }
+        
+        let calendar = Calendar.current
+        repeat{
+            
+            var dateComponent = DateComponents()
+            switch interval ?? .weekly {
+                case .monthly:
+                    dateComponent.month = 1
+                case .weekly:
+                    dateComponent.weekOfYear = 1
+            }
+            date = calendar.date(byAdding: dateComponent, to: date!)
+        }while(date != nil && date! < Date())
+        
+        if date == nil { return nil }
 
+        
+        let curDateComponents = calendar.dateComponents([.day, .month], from: Date())
+        let secDateComponents = calendar.dateComponents([.day, .month], from: date!)
+        var days = 0
+        let secDays = secDateComponents.day!
+        let curDays = curDateComponents.day!
+        if secDays < curDays {
+            let daysInMonth = calendar.range(of: .day, in: .month, for: Date())!.count
+            days = (daysInMonth - curDays) + secDays
+        }else {
+            days = secDays - curDays
+        }
+        var returnString = "Next Meeting: "
+        if days == 1 {
+            returnString += "Tomorrow!"
+        }else if days <= 0 {
+            returnString += "Today!"
+        }else {
+            returnString += "In \(days) Days"
+        }
+        return returnString
+        
+    }
+    
+}
