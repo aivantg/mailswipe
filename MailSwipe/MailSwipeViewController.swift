@@ -33,10 +33,18 @@ class MailSwipeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.isHidden = false
         
+        navigationController?.navigationBar.barTintColor = UIColor.init(colorLiteralRed: 5/255, green: 170/255, blue: 25/255, alpha: 1)
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        navigationController?.navigationBar.barStyle = .black
+
+        tableView.contentInset = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
+
         guard let user = FIRAuth.auth()?.currentUser else {
             fatalError("Could not find current user")
         }
+ 
         
         self.tableView.isHidden = self.emails.isEmpty
 
@@ -213,6 +221,14 @@ extension MailSwipeViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return emails.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return nil
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -94,6 +94,11 @@ class EmailViewController: UIViewController {
         nameTextField.becomeFirstResponder()
         
 
+        navigationController?.navigationBar.barTintColor = UIColor.init(colorLiteralRed: 5/255, green: 170/255, blue: 25/255, alpha: 1)
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        navigationController?.navigationBar.barStyle = .black
+
+        
         updateBodyTextViewText()
         setupDropDown()
         checkExistingEmail()
@@ -114,8 +119,7 @@ class EmailViewController: UIViewController {
     func keyboardWillShow(notification: Notification){
         keyboardHeight = CGFloat((notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 8)
         keyboardAnimationDuration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double) ?? 0.1
-        print("Found Keyboard Height: \(keyboardHeight)")
-        
+
     }
     
     //MARK: - Firebase Saving
@@ -261,6 +265,7 @@ class EmailViewController: UIViewController {
         bodyTextView.resignFirstResponder()
     }
     func finishDatePicker(){
+        
         dateTextField.resignFirstResponder()
         locationTextField.becomeFirstResponder()
     }
@@ -367,9 +372,6 @@ extension EmailViewController : UITextViewDelegate {
         var dif = (UIScreen.main.bounds.height - keyboardHeight) - textView.frame.origin.y
         dif = dif < 150 ? dif - 150 : 0
 
-        print(textView.frame.origin.y)
-        print(UIScreen.main.bounds.height)
-        print(dif)
         bodyTextViewBottomConstraint.constant = keyboardHeight + dif
         UIView.animate(withDuration: keyboardAnimationDuration) {
             self.view.frame.origin.y = dif

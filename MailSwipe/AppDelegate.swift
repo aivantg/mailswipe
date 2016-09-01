@@ -29,8 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // Setup Firebase
         FIRApp.configure()
-        //FIRAuth.auth()?.signInAnonymously(completion: { (user, error) in
-        FIRAuth.auth()?.signIn(withEmail: "aivantgoyal@yahoo.com", password: "Concorde1", completion: { (user, error) in
+        FIRAuth.auth()?.signInAnonymously(completion: { (user, error) in
             guard error == nil else {
                 print("Error Authenticating User. Error: \(error?.localizedDescription)")
                 return
@@ -39,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             FIRDatabase.database().reference(withPath: "users/\(id)").keepSynced(true)
         })
         FIRDatabase.database().persistenceEnabled = true
-
+        
         
         
         // Setup DropDown
