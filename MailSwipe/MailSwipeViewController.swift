@@ -157,13 +157,11 @@ class MailSwipeViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
         guard let identifier = segue.identifier else { return }
-        var destination = segue.destination
-        if let destinationNav = destination  as? UINavigationController {
-            destination = destinationNav.visibleViewController!
-        }
+        let destination = segue.destination.contentViewController
         switch identifier {
         case Storyboard.EditEmailSegue:
             guard let emailVC = destination as? EmailViewController, let index = tableView.indexPathForSelectedRow?.row else { return }
+            print("Index: \(index)")
             emailVC.existingEmail = emails[index]
         default: break
         }
@@ -184,11 +182,12 @@ extension MailSwipeViewController: MFMailComposeViewControllerDelegate {
 extension MailSwipeViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Selected Row at IndexPath: \(indexPath)")
         switch sendingEmail {
         case true:
             openEmailEditor(forEmailInfo: emails[indexPath.row].info)
             sendingEmail = false
-        case false: performSegue(withIdentifier: Storyboard.EditEmailSegue, sender: tableView.cellForRow(at: indexPath))
+        case false: performSegue(withIdentifier: Storyboard.EditEmailSegue, sender: nil)
         }
     }
     

@@ -21,9 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // Register for Local Notifications
         let center = UNUserNotificationCenter.current()
-        let sendAction = UNNotificationAction(identifier: "send", title: "Send", options: [])
-        let category = UNNotificationCategory(identifier: "email", actions: [sendAction], intentIdentifiers: [], options: [.customDismissAction])
-        center.setNotificationCategories([category])
         center.requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
             // Enable or disable features based on authorization.
         }
@@ -32,14 +29,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // Setup Firebase
         FIRApp.configure()
-        FIRDatabase.database().persistenceEnabled = true
-        FIRAuth.auth()?.signInAnonymously(completion: { (user, error) in
+        //FIRAuth.auth()?.signInAnonymously(completion: { (user, error) in
+        FIRAuth.auth()?.signIn(withEmail: "aivantgoyal@yahoo.com", password: "Concorde1", completion: { (user, error) in
             guard error == nil else {
                 print("Error Authenticating User. Error: \(error?.localizedDescription)")
                 return
             }
-            print("User ID: \(user?.uid ?? "No ID")")
+            let id = user?.uid ?? "No ID"
+            FIRDatabase.database().reference(withPath: "users/\(id)").keepSynced(true)
         })
+        FIRDatabase.database().persistenceEnabled = true
+
+        
         
         // Setup DropDown
         DropDown.startListeningToKeyboard()

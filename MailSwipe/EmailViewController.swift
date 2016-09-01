@@ -102,15 +102,16 @@ class EmailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(notification:)), name: Notification.Name.UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
     }
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
     }
     
-    func keyboardDidShow(notification: Notification){
+    func keyboardWillShow(notification: Notification){
         keyboardHeight = CGFloat((notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 8)
         keyboardAnimationDuration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double) ?? 0.1
         print("Found Keyboard Height: \(keyboardHeight)")
@@ -152,7 +153,8 @@ class EmailViewController: UIViewController {
         notificationContent.title = "MailSwipe"
         notificationContent.body = "Swipe to send your \(name) email!"
         notificationContent.userInfo = email.info
-        notificationContent.categoryIdentifier = "email"
+        notificationContent.sound = UNNotificationSound.default()
+        notificationContent.badge = UIApplication.shared.applicationIconBadgeNumber + 1
         
         
         let calendar = Calendar.current
@@ -361,8 +363,16 @@ extension EmailViewController : UITextFieldDelegate{
 extension EmailViewController : UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         self.view.layoutIfNeeded()
-        bodyTextViewBottomConstraint.constant = keyboardHeight
+        
+        var dif = (UIScreen.main.bounds.height - keyboardHeight) - textView.frame.origin.y
+        dif = dif < 150 ? dif - 150 : 0
+
+        print(textView.frame.origin.y)
+        print(UIScreen.main.bounds.height)
+        print(dif)
+        bodyTextViewBottomConstraint.constant = keyboardHeight + dif
         UIView.animate(withDuration: keyboardAnimationDuration) {
+            self.view.frame.origin.y = dif
             self.view.layoutIfNeeded()
         }
     }
@@ -371,6 +381,7 @@ extension EmailViewController : UITextViewDelegate {
         self.view.layoutIfNeeded()
         bodyTextViewBottomConstraint.constant = 8
         UIView.animate(withDuration: keyboardAnimationDuration) {
+            self.view.frame.origin.y = 0
             self.view.layoutIfNeeded()
         }
     }
