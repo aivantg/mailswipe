@@ -38,22 +38,11 @@ class EmailViewController: UIViewController {
         didSet{
             dateTextField.delegate = self
             dateTextField.tag = 2
-            
-            let datePicker = UIDatePicker()
-            datePicker.datePickerMode = .dateAndTime
-            datePicker.date = Date.getDate(fromServerString: (existingEmail?.info["date"] as? String) ?? "") ?? Date()
-            datePicker.addTarget(self, action: #selector(updateMeetingTimeText(sender:)), for: .valueChanged)
-            
-            let doneToolbar = UIToolbar()
-            doneToolbar.barStyle = .default
-            doneToolbar.items = [
-                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-                UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(finishDatePicker))]
-            doneToolbar.sizeToFit()
-            dateTextField.inputAccessoryView = doneToolbar
-            dateTextField.inputView = datePicker
+            dateTextField.inputAccessoryView = getToolbar(forText: "Next")
+            dateTextField.inputView = getDatePicker()
         }
     }
+    
     @IBOutlet weak var recipientTextField: UITextField!{
         didSet{
             recipientTextField.delegate = self
@@ -70,16 +59,10 @@ class EmailViewController: UIViewController {
         didSet{
             bodyTextView.tag = 5
             bodyTextView.delegate = self
-            
-            let doneToolbar = UIToolbar()
-            doneToolbar.barStyle = .default
-            doneToolbar.items = [
-                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-                UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(finishBodyTextView))]
-            doneToolbar.sizeToFit()
-            bodyTextView.inputAccessoryView = doneToolbar
+            bodyTextView.inputAccessoryView = getToolbar(forText: "Done")
         }
     }
+
     @IBOutlet weak var repeatButton: NiceButton!
     
     var keyboardHeight : CGFloat = 0
@@ -134,54 +117,12 @@ class EmailViewController: UIViewController {
         let ref = FIRDatabase.database().reference().child("users/\(uid)/\(emailId)")
         ref.setValue(email.info)
         showAlert(title: "Reminders Scheduled!", message: "MailSwipe will now send you a notification 24 hours before the club meeting reminding you to send your email!", action: {
-            self.scheduleNotifications(forEmail: email, withName: email.info["name"]! as! String, withDate: self.selectedDate!)
+            NotificationManager.scheduleEmailNotifications(forEmail: email, withName: email.info["name"]! as! String, withDate: self.selectedDate!)
             self.presentingViewController?.dismiss(animated: true, completion: nil)
 
         })
     }
     
-    func scheduleNotifications(forEmail email: Email, withName name: String, withDate date: Date){
-        
-        let center = UNUserNotificationCenter.current()
-        var newIdentifier = "\(email.id)-\(String.randomStringWithLength(length: 5))"
-        if let existingIdentifier = UserDefaults.standard.object(forKey: email.id) as? String {
-            center.removePendingNotificationRequests(withIdentifiers: [existingIdentifier])
-            center.removeDeliveredNotifications(withIdentifiers: [existingIdentifier])
-            while (existingIdentifier == newIdentifier) {
-                newIdentifier = "\(email.id)-\(String.randomStringWithLength(length: 5))"
-            }
-        }
-        UserDefaults.standard.set(newIdentifier, forKey: email.id)
-        
-        let notificationContent = UNMutableNotificationContent()
-        notificationContent.title = "MailSwipe"
-        notificationContent.body = "Swipe to send your \(name) email!"
-        notificationContent.userInfo = email.info
-        notificationContent.sound = UNNotificationSound.default()
-        notificationContent.badge = UIApplication.shared.applicationIconBadgeNumber + 1
-        
-        
-        let calendar = Calendar.current
-        var repeatComponents = DateComponents()
-        var minusDayComponent = DateComponents()
-        minusDayComponent.day = -1
-        let adjustedDate = calendar.date(byAdding: minusDayComponent, to: date)
-        let selectedComponents = calendar.dateComponents([.hour, .minute, .weekday, .weekOfMonth], from: adjustedDate!)
-        repeatComponents.weekday = selectedComponents.weekday
-        repeatComponents.hour = selectedComponents.hour
-        repeatComponents.minute = selectedComponents.minute
-        if repeatButton.titleLabel?.text == RemindInterval.monthly.rawValue {
-            repeatComponents.weekOfMonth = selectedComponents.weekOfMonth
-        }
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: repeatComponents, repeats: true)
-        
-        let emailRequest = UNNotificationRequest(identifier: newIdentifier, content: notificationContent, trigger: trigger)
-        UNUserNotificationCenter.current().add(emailRequest) { (error) in
-            // handle the error if needed
-            print(error)
-        }
-    }
     
     func getEmail() -> Email? {
         let name = nameTextField.text?.trim() ?? ""
@@ -258,7 +199,6 @@ class EmailViewController: UIViewController {
         dateTextField.text = sender.date.getReadableString()
         selectedDate = sender.date
         updateBodyTextViewText()
-        
     }
     
     func finishBodyTextView(){
@@ -310,7 +250,9 @@ class EmailViewController: UIViewController {
         _ = repeatDropdown.show()
     }
     
-    func setupDropDown() {
+    //MARK: - Private Helper Functions
+    
+    private func setupDropDown() {
         repeatDropdown.anchorView = repeatButton
         repeatDropdown.direction = .bottom
         repeatDropdown.dismissMode = .automatic
@@ -336,7 +278,24 @@ class EmailViewController: UIViewController {
         //		appearance.textFont = UIFont(name: "Georgia", size: 14)
     }
     
-    //MARK: - Date Functions
+    private func getDatePicker() -> UIDatePicker {
+        let lazyDatePicker = UIDatePicker()
+        lazyDatePicker.datePickerMode = .dateAndTime
+        lazyDatePicker.date = Date.getDate(fromServerString: (self.existingEmail?.info["date"] as? String) ?? "") ?? Date()
+        lazyDatePicker.addTarget(self, action: #selector(updateMeetingTimeText(sender:)), for: .valueChanged)
+        return lazyDatePicker
+    }
+    
+    private func getToolbar(forText text: String) -> UIToolbar{
+        let doneToolbar = UIToolbar()
+        doneToolbar.barStyle = .default
+        doneToolbar.items = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(title: text, style: .done, target: self, action: #selector(finishBodyTextView))]
+        doneToolbar.sizeToFit()
+        return doneToolbar
+    }
+    
     
 
 

@@ -15,6 +15,7 @@
 		A359326A1D6C196200B3AFE7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A35932681D6C196200B3AFE7 /* LaunchScreen.storyboard */; };
 		A35932721D6C23A000B3AFE7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A35932711D6C23A000B3AFE7 /* GoogleService-Info.plist */; };
 		A35932741D6C400700B3AFE7 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35932731D6C400700B3AFE7 /* String+Extension.swift */; };
+		A36ADF1C1D79326D00AFA61F /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36ADF1B1D79326D00AFA61F /* NotificationManager.swift */; };
 		A37E91431D6D625E0000F891 /* EmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37E91421D6D625E0000F891 /* EmailViewController.swift */; };
 		A3A8BC9B1D77ECD1007E4A45 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8BC9A1D77ECD1007E4A45 /* Date+Extension.swift */; };
 		A3A8BC9F1D780C97007E4A45 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8BC9E1D780C97007E4A45 /* UIViewController+Extension.swift */; };
@@ -34,6 +35,7 @@
 		A359326B1D6C196200B3AFE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A35932711D6C23A000B3AFE7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A35932731D6C400700B3AFE7 /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Extension.swift"; path = "Extensions/String+Extension.swift"; sourceTree = "<group>"; };
+		A36ADF1B1D79326D00AFA61F /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		A37E91421D6D625E0000F891 /* EmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailViewController.swift; sourceTree = "<group>"; };
 		A3A8BC9A1D77ECD1007E4A45 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Date+Extension.swift"; path = "Extensions/Date+Extension.swift"; sourceTree = "<group>"; };
 		A3A8BC9E1D780C97007E4A45 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Extension.swift"; path = "Extensions/UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -84,10 +86,12 @@
 			children = (
 				A37E91411D6D622A0000F891 /* Supporting Files */,
 				A35932751D6C400B00B3AFE7 /* Extensions */,
+				A359325F1D6C196200B3AFE7 /* AppDelegate.swift */,
 				A35932611D6C196200B3AFE7 /* MailSwipeViewController.swift */,
 				A35932631D6C196200B3AFE7 /* Main.storyboard */,
 				A3F12DBA1D6D69B900B9DA00 /* NiceButton.swift */,
 				A37E91421D6D625E0000F891 /* EmailViewController.swift */,
+				A36ADF1B1D79326D00AFA61F /* NotificationManager.swift */,
 			);
 			path = MailSwipe;
 			sourceTree = "<group>";
@@ -106,7 +110,6 @@
 			isa = PBXGroup;
 			children = (
 				A3EDBA871D6E055A002D3C6C /* MailSwipe.entitlements */,
-				A359325F1D6C196200B3AFE7 /* AppDelegate.swift */,
 				A359326B1D6C196200B3AFE7 /* Info.plist */,
 				A35932661D6C196200B3AFE7 /* Assets.xcassets */,
 				A35932681D6C196200B3AFE7 /* LaunchScreen.storyboard */,
@@ -261,6 +264,7 @@
 				A35932741D6C400700B3AFE7 /* String+Extension.swift in Sources */,
 				A3A8BC9F1D780C97007E4A45 /* UIViewController+Extension.swift in Sources */,
 				A35932601D6C196200B3AFE7 /* AppDelegate.swift in Sources */,
+				A36ADF1C1D79326D00AFA61F /* NotificationManager.swift in Sources */,
 				A3A8BC9B1D77ECD1007E4A45 /* Date+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

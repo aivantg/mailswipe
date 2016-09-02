@@ -39,14 +39,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         })
         FIRDatabase.database().persistenceEnabled = true
         
-        
-        
+        styleNavBar()
         // Setup DropDown
         DropDown.startListeningToKeyboard()
-        
-
-        
         return true
+    }
+    
+    func styleNavBar(){
+        let navBarAppearance = UINavigationBar.appearance()
+        navBarAppearance.barTintColor = UIColor(colorLiteralRed: 5/255, green: 170/255, blue: 25/255, alpha: 1)
+        navBarAppearance.tintColor = UIColor.white
+        navBarAppearance.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        navBarAppearance.barStyle = .black
+        UINavigationBar.appearance()
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        application.applicationIconBadgeNumber = 0
     }
     
     func handleNotification(forEmailInfo emailInfo: EmailInfo){
@@ -86,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             mailVC.openEmailEditor(forEmailInfo: emailInfo)
         }
         completionHandler()
-    
+        
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void) {
@@ -100,5 +109,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
     }
 
+    
+   
 }
 

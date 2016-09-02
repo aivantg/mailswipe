@@ -30,14 +30,12 @@ class MailSwipeViewController: UIViewController {
     var sendingEmail = false
     
     var emails = [Email]()
+    
+    // MARK: View Controller Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.isHidden = false
-        
-        navigationController?.navigationBar.barTintColor = UIColor.init(colorLiteralRed: 5/255, green: 170/255, blue: 25/255, alpha: 1)
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-        navigationController?.navigationBar.barStyle = .black
 
         tableView.contentInset = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
 
@@ -248,8 +246,7 @@ extension MailSwipeViewController: UITableViewDataSource{
         }
         
         let calendar = Calendar.current
-        repeat{
-            
+        while(date != nil && date! < Date()) {
             var dateComponent = DateComponents()
             switch interval ?? .weekly {
                 case .monthly:
@@ -258,10 +255,7 @@ extension MailSwipeViewController: UITableViewDataSource{
                     dateComponent.weekOfYear = 1
             }
             date = calendar.date(byAdding: dateComponent, to: date!)
-        }while(date != nil && date! < Date())
-        
-        if date == nil { return nil }
-
+        }
         
         let curDateComponents = calendar.dateComponents([.day, .month], from: Date())
         let secDateComponents = calendar.dateComponents([.day, .month], from: date!)
