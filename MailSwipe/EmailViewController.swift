@@ -14,9 +14,10 @@ import UserNotifications
 enum RemindInterval : String {
     case weekly = "Weekly"
     case monthly = "Monthly"
+    case once = "Once"
     
     static func getAll() -> [String]{
-        return ["Weekly", "Monthly"]
+        return ["Weekly", "Monthly", "Once"]
     }
 }
 
@@ -38,7 +39,7 @@ class EmailViewController: UIViewController {
         didSet{
             dateTextField.delegate = self
             dateTextField.tag = 2
-            dateTextField.inputAccessoryView = getToolbar(forText: "Next")
+            dateTextField.inputAccessoryView = getToolbar(forText: "Next", forSelector: #selector(finishDatePicker))
             dateTextField.inputView = getDatePicker()
         }
     }
@@ -59,7 +60,7 @@ class EmailViewController: UIViewController {
         didSet{
             bodyTextView.tag = 5
             bodyTextView.delegate = self
-            bodyTextView.inputAccessoryView = getToolbar(forText: "Done")
+            bodyTextView.inputAccessoryView = getToolbar(forText: "Done", forSelector: #selector(finishBodyTextView))
         }
     }
 
@@ -128,7 +129,7 @@ class EmailViewController: UIViewController {
         let name = nameTextField.text?.trim() ?? ""
         let location = locationTextField.text?.trim() ?? ""
         let repeatInterval = repeatButton.titleLabel?.text ?? ""
-        let body = bodyTextView.text.trim() ?? ""
+        let body = bodyTextView.text.trim() 
         let recipientText = recipientTextField.text?.trim() ?? ""
         
         guard
@@ -143,18 +144,14 @@ class EmailViewController: UIViewController {
             return nil
         }
         
-        var recipients = recipientText.components(separatedBy: ",").map() { $0.trim() }
+        let recipients = recipientText.extractEmails().map() { $0.trim() }
         guard recipients.count > 0 else { showUnfinishedAlert(); return nil }
-        recipients = recipients.filter { (email) -> Bool in
-            let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
-            let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-            return emailTest.evaluate(with: email)
-        }
-        guard recipients.count > 0 else {
-            showAlert(title: "Invalid Email Address", message: "You must enter at least one valid email address.")
-            return nil
-        }
-        
+
+//        guard recipients.count > 0 else {
+//            showAlert(title: "Invalid Email Address", message: "You must enter at least one valid email address.")
+//            return nil
+//        }
+//        
         return (id: name.removeSpaces(), info: ["name" : name, "location" : location, "repeatInterval" : repeatInterval, "body" : body, "recipients" : recipients, "date" : date.getServerString()])
     }
     
@@ -175,14 +172,38 @@ class EmailViewController: UIViewController {
     @IBAction func importEmails(_ sender: AnyObject) {
         let googleSheetsUrl = URL(string: "googlesheets://")!
         let googleDriveUrl = URL(string: "googledrive://")!
+        var sheetsExists = false
+        var driveExists = false
         if UIApplication.shared.canOpenURL(googleSheetsUrl) {
-            UIApplication.shared.open(googleSheetsUrl, options: [:], completionHandler: nil)
-        }else if UIApplication.shared.canOpenURL(googleDriveUrl) {
-            UIApplication.shared.open(googleDriveUrl, options: [:], completionHandler: nil)
-        }else {
-            showAlert(title: "Unable to Import", message: "You must install either the Google Drive app or the Google Sheets app to import.")
+            sheetsExists = true
+        }
+        if UIApplication.shared.canOpenURL(googleDriveUrl) {
+            driveExists = true
         }
         
+        let alertController = UIAlertController(title: "Import Email Addresses", message: "You can copy in email addresses from all sorts of different places. Just go to an excel sheet or a previous email, copy the list of addresses, and paste them in the text box. If they don't paste, try pasting them somewhere else first (as different formats act strangely).", preferredStyle: .alert)
+        if sheetsExists {
+            alertController.addAction(UIAlertAction(title: "Open Google Sheets", style: .default, handler: { (_) in
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(googleSheetsUrl, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(googleSheetsUrl)
+                    // Fallback on earlier versions
+                }
+            }))
+        }
+        if driveExists {
+            alertController.addAction(UIAlertAction(title: "Open Google Drive", style: .default, handler: { (_) in
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(googleDriveUrl, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(googleDriveUrl)
+                    // Fallback on earlier versions
+                }
+            }))
+        }
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
     }
 
     func updateBodyTextViewText(force: Bool = false){
@@ -286,12 +307,12 @@ class EmailViewController: UIViewController {
         return lazyDatePicker
     }
     
-    private func getToolbar(forText text: String) -> UIToolbar{
+    private func getToolbar(forText text: String, forSelector selector: Selector) -> UIToolbar{
         let doneToolbar = UIToolbar()
         doneToolbar.barStyle = .default
         doneToolbar.items = [
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(title: text, style: .done, target: self, action: #selector(finishBodyTextView))]
+            UIBarButtonItem(title: text, style: .done, target: self, action: selector)]
         doneToolbar.sizeToFit()
         return doneToolbar
     }

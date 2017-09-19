@@ -8,10 +8,10 @@
 
 import UIKit
 
-public class DropDownCell: UITableViewCell {
+open class DropDownCell: UITableViewCell {
 		
 	//UI
-	@IBOutlet public weak var optionLabel: UILabel!
+	@IBOutlet open weak var optionLabel: UILabel!
 	
 	var selectedBackgroundColor: UIColor?
 
@@ -21,29 +21,29 @@ public class DropDownCell: UITableViewCell {
 
 extension DropDownCell {
 	
-	override public func awakeFromNib() {
+	override open func awakeFromNib() {
 		super.awakeFromNib()
 		
 		backgroundColor = UIColor.clear
 	}
 	
-	override public var isSelected: Bool {
+	override open var isSelected: Bool {
 		willSet {
 			setSelected(newValue, animated: false)
 		}
 	}
 	
-	override public var isHighlighted: Bool {
+	override open var isHighlighted: Bool {
 		willSet {
 			setSelected(newValue, animated: false)
 		}
 	}
 	
-	override public func setHighlighted(_ highlighted: Bool, animated: Bool) {
+	override open func setHighlighted(_ highlighted: Bool, animated: Bool) {
 		setSelected(highlighted, animated: animated)
 	}
 	
-	override public func setSelected(_ selected: Bool, animated: Bool) {
+	override open func setSelected(_ selected: Bool, animated: Bool) {
 		let executeSelection: () -> Void = { [unowned self] in
 			if let selectedBackgroundColor = self.selectedBackgroundColor {
 				if selected {

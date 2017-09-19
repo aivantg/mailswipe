@@ -38,4 +38,20 @@ extension String
         
         return randomString
     }
+    
+    func extractEmails() -> [String] {
+        let pattern = "([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.[a-zA-Z0-9._-]+)"
+        var results = [String]()
+
+        do {
+            
+            let regexp = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+            regexp.enumerateMatches(in: self, options: .withTransparentBounds, range: NSRange(location: 0, length: self.characters.count), using: { (result, _, _) in
+                guard let result = result else{ return }
+                results.append((self as NSString).substring(with: result.range))
+
+            })
+        }catch { }
+        return results
+    }
 }

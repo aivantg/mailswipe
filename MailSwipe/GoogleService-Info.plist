@@ -7,9 +7,9 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>981839816033-9g4leqnac99qdris0cvo049lvqi5fmtr.apps.googleusercontent.com</string>
+	<string>981839816033-pp62feqpesmg7cphl5d208g8suc1smt2.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.981839816033-9g4leqnac99qdris0cvo049lvqi5fmtr</string>
+	<string>com.googleusercontent.apps.981839816033-pp62feqpesmg7cphl5d208g8suc1smt2</string>
 	<key>API_KEY</key>
 	<string>AIzaSyB4KucEeqCdc43WyKCxx2V054WI_C67rV8</string>
 	<key>GCM_SENDER_ID</key>

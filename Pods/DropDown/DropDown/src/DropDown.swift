@@ -7,6 +7,26 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 public typealias Index = Int
 public typealias Closure = () -> Void
@@ -78,10 +98,10 @@ public final class DropDown: UIView {
 	public static weak var VisibleDropDown: DropDown?
 
 	//MARK: UI
-	private let dismissableView = UIView()
-	private let tableViewContainer = UIView()
-	private let tableView = UITableView()
-	private var templateCell: DropDownCell!
+	fileprivate let dismissableView = UIView()
+	fileprivate let tableViewContainer = UIView()
+	fileprivate let tableView = UITableView()
+	fileprivate var templateCell: DropDownCell!
 
 
 	/// The view to which the drop down will displayed onto.
@@ -128,10 +148,10 @@ public final class DropDown: UIView {
 	}
 
 	//MARK: Constraints
-	private var heightConstraint: NSLayoutConstraint!
-	private var widthConstraint: NSLayoutConstraint!
-	private var xConstraint: NSLayoutConstraint!
-	private var yConstraint: NSLayoutConstraint!
+	fileprivate var heightConstraint: NSLayoutConstraint!
+	fileprivate var widthConstraint: NSLayoutConstraint!
+	fileprivate var xConstraint: NSLayoutConstraint!
+	fileprivate var yConstraint: NSLayoutConstraint!
 
 	//MARK: Appearance
 	public dynamic var cellHeight = DPDConstant.UI.RowHeight {
@@ -139,7 +159,7 @@ public final class DropDown: UIView {
 		didSet { reloadAllComponents() }
 	}
 
-	private dynamic var tableViewBackgroundColor = DPDConstant.UI.BackgroundColor {
+	fileprivate dynamic var tableViewBackgroundColor = DPDConstant.UI.BackgroundColor {
 		willSet { tableView.backgroundColor = newValue }
 	}
 
@@ -308,7 +328,7 @@ public final class DropDown: UIView {
 	}
 
 	/// The index of the row after its seleciton.
-	private var selectedRowIndex: Index?
+	fileprivate var selectedRowIndex: Index?
 
 	/**
 	The format for the cells' text.
@@ -350,11 +370,11 @@ public final class DropDown: UIView {
 		}
 	}
 
-	private var minHeight: CGFloat {
+	fileprivate var minHeight: CGFloat {
 		return tableView.rowHeight
 	}
 
-	private var didSetupConstraints = false
+	fileprivate var didSetupConstraints = false
 
 	//MARK: - Init's
 
@@ -488,7 +508,7 @@ extension DropDown {
 		super.updateConstraints()
 	}
 
-	private func setupConstraints() {
+	fileprivate func setupConstraints() {
 		translatesAutoresizingMaskIntoConstraints = false
 
 		// Dismissable view
@@ -560,7 +580,7 @@ extension DropDown {
 		tableViewContainer.layer.shadowPath = shadowPath.cgPath
 	}
 
-	private func computeLayout() -> (x: CGFloat, y: CGFloat, width: CGFloat, offscreenHeight: CGFloat, visibleHeight: CGFloat, canBeDisplayed: Bool, Direction: Direction) {
+	fileprivate func computeLayout() -> (x: CGFloat, y: CGFloat, width: CGFloat, offscreenHeight: CGFloat, visibleHeight: CGFloat, canBeDisplayed: Bool, Direction: Direction) {
 		var layout: ComputeLayoutTuple = (0, 0, 0, 0)
 		var direction = self.direction
 
@@ -613,7 +633,7 @@ extension DropDown {
 		return (layout.x, layout.y, layout.width, layout.offscreenHeight, visibleHeight, canBeDisplayed, direction)
 	}
 
-	private func computeLayoutBottomDisplay(window: UIWindow) -> ComputeLayoutTuple {
+	fileprivate func computeLayoutBottomDisplay(window: UIWindow) -> ComputeLayoutTuple {
 		var offscreenHeight: CGFloat = 0
 		
 		let width = self.width ?? (anchorView?.plainView.bounds.width ?? fittingWidth()) - bottomOffset.x
@@ -639,7 +659,7 @@ extension DropDown {
 		return (x, y, width, offscreenHeight)
 	}
 
-	private func computeLayoutForTopDisplay(window: UIWindow) -> ComputeLayoutTuple {
+	fileprivate func computeLayoutForTopDisplay(window: UIWindow) -> ComputeLayoutTuple {
 		var offscreenHeight: CGFloat = 0
 
 		let anchorViewX = anchorView?.plainView.windowFrame?.minX ?? 0
@@ -660,7 +680,7 @@ extension DropDown {
 		return (x, y, width, offscreenHeight)
 	}
 	
-	private func fittingWidth() -> CGFloat {
+	fileprivate func fittingWidth() -> CGFloat {
 		if templateCell == nil {
 			templateCell = cellNib.instantiate(withOwner: nil, options: nil)[0] as! DropDownCell
 		}
@@ -680,7 +700,7 @@ extension DropDown {
 		return maxWidth
 	}
 	
-	private func constraintWidthToBoundsIfNecessary(_ layout: inout ComputeLayoutTuple, in window: UIWindow) {
+	fileprivate func constraintWidthToBoundsIfNecessary(_ layout: inout ComputeLayoutTuple, in window: UIWindow) {
 		let windowMaxX = window.bounds.maxX
 		let maxX = layout.x + layout.width
 		
@@ -697,7 +717,7 @@ extension DropDown {
 		}
 	}
 	
-	private func constraintWidthToFittingSizeIfNecessary(_ layout: inout ComputeLayoutTuple) {
+	fileprivate func constraintWidthToFittingSizeIfNecessary(_ layout: inout ComputeLayoutTuple) {
 		guard width == nil else { return }
 		
 		if layout.width < fittingWidth() {
@@ -720,7 +740,7 @@ extension DropDown {
     public func objc_show() -> NSDictionary {
         let (canBeDisplayed, offScreenHeight) = show()
         
-        var info = [NSObject : AnyObject]()
+        var info = [AnyHashable: Any]()
         info["canBeDisplayed"] = canBeDisplayed
         if let offScreenHeight = offScreenHeight {
             info["offScreenHeight"] = offScreenHeight
@@ -808,16 +828,16 @@ extension DropDown {
 			})
 	}
 
-	private func cancel() {
+	fileprivate func cancel() {
 		hide()
 		cancelAction?()
 	}
 
-	private func setHiddentState() {
+	fileprivate func setHiddentState() {
 		alpha = 0
 	}
 
-	private func setShowedState() {
+	fileprivate func setShowedState() {
 		alpha = 1
 		tableViewContainer.transform = CGAffineTransform.identity
 	}
@@ -858,7 +878,7 @@ extension DropDown {
 		selectedRowIndex = nil
 
 		guard let index = index
-			where index >= 0
+			, index >= 0
 			else { return }
 
 		tableView.deselectRow(at: IndexPath(row: index, section: 0), animated: true)
@@ -877,7 +897,7 @@ extension DropDown {
 	}
 
 	/// Returns the height needed to display all cells.
-	private var tableHeight: CGFloat {
+	fileprivate var tableHeight: CGFloat {
 		return tableView.rowHeight * CGFloat(dataSource.count)
 	}
 
@@ -948,7 +968,7 @@ extension DropDown {
 	}
 
 	@objc
-	private func dismissableViewTapped() {
+	fileprivate func dismissableViewTapped() {
 		cancel()
 	}
 
@@ -966,7 +986,7 @@ extension DropDown {
 		KeyboardListener.sharedInstance.startListeningToKeyboard()
 	}
 
-	private func startListeningToKeyboard() {
+	fileprivate func startListeningToKeyboard() {
 		KeyboardListener.sharedInstance.startListeningToKeyboard()
 
 		NotificationCenter.default.addObserver(
@@ -981,12 +1001,12 @@ extension DropDown {
 			object: nil)
 	}
 
-	private func stopListeningToNotifications() {
+	fileprivate func stopListeningToNotifications() {
 		NotificationCenter.default.removeObserver(self)
 	}
 
 	@objc
-	private func keyboardUpdate() {
+	fileprivate func keyboardUpdate() {
 		self.setNeedsUpdateConstraints()
 	}
 

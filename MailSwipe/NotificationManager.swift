@@ -11,47 +11,57 @@ import UserNotifications
 
 class NotificationManager {
     
-    func scheduleEmailNotifications(forEmail email: Email, withName name: String, withDate date: Date){
+    
+    
+    class func scheduleEmailNotifications(forEmail email: Email, withName name: String, withDate date: Date){
         
-        let center = UNUserNotificationCenter.current()
         var newIdentifier = "\(email.id)-\(String.randomStringWithLength(length: 5))"
         if let existingIdentifier = UserDefaults.standard.object(forKey: email.id) as? String {
-            center.removePendingNotificationRequests(withIdentifiers: [existingIdentifier])
-            center.removeDeliveredNotifications(withIdentifiers: [existingIdentifier])
+            print("Existing Identifier: \(existingIdentifier)")
+            for notification in UIApplication.shared.scheduledLocalNotifications ?? [] {
+                guard let id = notification.userInfo?["id"] as? String else { continue }
+                if id == existingIdentifier {
+                    print("Cancelling Notification with Identifier: \(id)")
+                    UIApplication.shared.cancelLocalNotification(notification)
+                }
+            }
             while (existingIdentifier == newIdentifier) {
                 newIdentifier = "\(email.id)-\(String.randomStringWithLength(length: 5))"
             }
         }
         UserDefaults.standard.set(newIdentifier, forKey: email.id)
-        
-        let notificationContent = UNMutableNotificationContent()
-        notificationContent.title = "\(name) Tomorrow"
-        notificationContent.body = "Swipe to send your \(name) email!"
-        notificationContent.userInfo = email.info
-        notificationContent.sound = UNNotificationSound.default()
-        notificationContent.badge = UIApplication.shared.applicationIconBadgeNumber + 1
-        
+    
         let calendar = Calendar.current
-        var minusDayComponent = DateComponents()
-        minusDayComponent.day = -1
-        let adjustedDate = calendar.date(byAdding: minusDayComponent, to: date)
+        let curYear = calendar.component(.year, from: Date())
+        let setDay = calendar.component(.day, from: date)
+        var timeComponents = calendar.dateComponents([.hour, .minute, .second, .day, .month], from: date)
+        timeComponents.year = curYear
+        timeComponents.day = setDay - 1
+        
+        let adjustedDate = calendar.date(from: timeComponents)
         let repeatInterval = email.info["repeatInterval"] as? String ?? "Weekly"
-        var repeatComponents = DateComponents()
-        let selectedComponents = calendar.dateComponents([.hour, .minute, .weekday, .weekOfMonth], from: adjustedDate!)
-        repeatComponents.weekday = selectedComponents.weekday
-        repeatComponents.hour = selectedComponents.hour
-        repeatComponents.minute = selectedComponents.minute
-        if repeatInterval == RemindInterval.monthly.rawValue {
-            repeatComponents.weekOfMonth = selectedComponents.weekOfMonth
+
+        print("Adjusted Date by setting year \(adjustedDate)")
+        // create a corresponding local notification
+        let notification = UILocalNotification()
+        if #available(iOS 8.2, *) {
+            notification.alertTitle = "\(name) Tomorrow"
         }
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: repeatComponents, repeats: true)
-        
-        let emailRequest = UNNotificationRequest(identifier: newIdentifier, content: notificationContent, trigger: trigger)
-        UNUserNotificationCenter.current().add(emailRequest) { (error) in
-            // handle the error if needed
-            print(error)
+        notification.alertBody = "Swipe to send your \(name) email!"
+        notification.alertAction = "Send"
+        notification.fireDate = adjustedDate // todo item due date (when notification will be fired)
+        print("\(name) will be fired \(adjustedDate)")
+        switch repeatInterval {
+            case "Monthly": notification.repeatInterval = .month
+            case "Once" : break //No Repeat Interval
+            default: notification.repeatInterval = .weekOfYear
         }
+        notification.soundName = UILocalNotificationDefaultSoundName
+        notification.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+        notification.userInfo = ["id": newIdentifier, "email" : email.info] // assign a unique identifier to the notification so that we can retrieve it later
+        
+        UIApplication.shared.scheduleLocalNotification(notification)
+
     }
 
 }

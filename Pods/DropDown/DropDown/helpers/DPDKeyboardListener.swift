@@ -12,9 +12,9 @@ internal final class KeyboardListener {
 	
 	static let sharedInstance = KeyboardListener()
 	
-	private(set) var isVisible = false
-	private(set) var keyboardFrame = CGRect.zero
-	private var isListening = false
+	fileprivate(set) var isVisible = false
+	fileprivate(set) var keyboardFrame = CGRect.zero
+	fileprivate var isListening = false
 	
 	deinit {
 		stopListeningToKeyboard()
@@ -50,18 +50,18 @@ extension KeyboardListener {
 	}
 	
 	@objc
-	private func keyboardWillShow(_ notification: Notification) {
+	fileprivate func keyboardWillShow(_ notification: Notification) {
 		isVisible = true
 		keyboardFrame = keyboardFrameFromNotification(notification)
 	}
 	
 	@objc
-	private func keyboardWillHide(_ notification: Notification) {
+	fileprivate func keyboardWillHide(_ notification: Notification) {
 		isVisible = false
 		keyboardFrame = keyboardFrameFromNotification(notification)
 	}
 	
-	private func keyboardFrameFromNotification(_ notification: Notification) -> CGRect {
+	fileprivate func keyboardFrameFromNotification(_ notification: Notification) -> CGRect {
 		return ((notification as NSNotification).userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue ?? CGRect.zero
 	}
 	

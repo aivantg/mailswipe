@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0800"
+   LastUpgradeVersion = "0820"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "99ED6436D5543C48694A33136E61057E"
+               BlueprintIdentifier = "2C78DA0324425FB72B65445166348C50"
                BuildableName = "Pods_MailSwipe.framework"
                BlueprintName = "Pods-MailSwipe"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "99ED6436D5543C48694A33136E61057E"
+            BlueprintIdentifier = "2C78DA0324425FB72B65445166348C50"
             BuildableName = "Pods_MailSwipe.framework"
             BlueprintName = "Pods-MailSwipe"
             ReferencedContainer = "container:Pods.xcodeproj">

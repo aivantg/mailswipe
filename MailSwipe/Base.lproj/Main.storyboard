@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11191" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Lea-V7-5Bd">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Lea-V7-5Bd">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -95,6 +95,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="sendButton" destination="Ioj-xh-bgR" id="lyq-wa-FtH"/>
                         <outlet property="tableView" destination="5lG-Ut-jZD" id="vjY-1I-ZFL"/>
                         <segue destination="AdZ-dE-3Zh" kind="presentation" identifier="Edit Email Segue" id="yyp-uz-215"/>
                     </connections>
@@ -219,10 +220,10 @@
                                     <action selector="saveEmail:" destination="fWI-zo-MpU" id="u4E-sq-4fR"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Import" id="I7W-vf-Sp9">
+                            <barButtonItem title="Import" id="rXs-mW-aL1" userLabel="Import">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <action selector="importEmails:" destination="fWI-zo-MpU" id="i2Y-Pd-ChM"/>
+                                    <action selector="importEmails:" destination="fWI-zo-MpU" id="DsM-2m-pW3"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>

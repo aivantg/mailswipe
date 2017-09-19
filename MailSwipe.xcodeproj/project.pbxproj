@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2324C829B25CFD49BD4BAD72 /* Pods_MailSwipe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 314FE50219DC3607C500849C /* Pods_MailSwipe.framework */; };
+		552F30994C4793364298FB4C /* Pods_MailSwipe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15CBD36E12330695C75A9C88 /* Pods_MailSwipe.framework */; };
+		A3440E0E1DECA7520014F826 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3440E0D1DECA7520014F826 /* Constants.swift */; };
 		A35932601D6C196200B3AFE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A359325F1D6C196200B3AFE7 /* AppDelegate.swift */; };
 		A35932621D6C196200B3AFE7 /* MailSwipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35932611D6C196200B3AFE7 /* MailSwipeViewController.swift */; };
 		A35932651D6C196200B3AFE7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A35932631D6C196200B3AFE7 /* Main.storyboard */; };
@@ -19,13 +20,21 @@
 		A37E91431D6D625E0000F891 /* EmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37E91421D6D625E0000F891 /* EmailViewController.swift */; };
 		A3A8BC9B1D77ECD1007E4A45 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8BC9A1D77ECD1007E4A45 /* Date+Extension.swift */; };
 		A3A8BC9F1D780C97007E4A45 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8BC9E1D780C97007E4A45 /* UIViewController+Extension.swift */; };
+		A3D58D101D8C988A009358CA /* DPDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D58D0A1D8C988A009358CA /* DPDConstants.swift */; };
+		A3D58D111D8C988A009358CA /* DPDKeyboardListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D58D0B1D8C988A009358CA /* DPDKeyboardListener.swift */; };
+		A3D58D121D8C988A009358CA /* DPDUIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D58D0C1D8C988A009358CA /* DPDUIView+Extension.swift */; };
+		A3D58D131D8C988A009358CA /* DropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D58D0D1D8C988A009358CA /* DropDown.swift */; };
+		A3D58D141D8C988A009358CA /* DropDown+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D58D0E1D8C988A009358CA /* DropDown+Appearance.swift */; };
+		A3D58D151D8C988A009358CA /* DropDownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D58D0F1D8C988A009358CA /* DropDownCell.swift */; };
+		A3D58D171D8C989A009358CA /* DropDownCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3D58D161D8C989A009358CA /* DropDownCell.xib */; };
 		A3F12DBB1D6D69B900B9DA00 /* NiceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F12DBA1D6D69B900B9DA00 /* NiceButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		08134F75BC3112F98036A1D7 /* Pods-MailSwipe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailSwipe.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MailSwipe/Pods-MailSwipe.debug.xcconfig"; sourceTree = "<group>"; };
-		314FE50219DC3607C500849C /* Pods_MailSwipe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MailSwipe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		33726683885199C6FF3B0435 /* Pods-MailSwipe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailSwipe.release.xcconfig"; path = "Pods/Target Support Files/Pods-MailSwipe/Pods-MailSwipe.release.xcconfig"; sourceTree = "<group>"; };
+		15CBD36E12330695C75A9C88 /* Pods_MailSwipe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MailSwipe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8504875FC7E844671492AEE5 /* Pods-MailSwipe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailSwipe.release.xcconfig"; path = "Pods/Target Support Files/Pods-MailSwipe/Pods-MailSwipe.release.xcconfig"; sourceTree = "<group>"; };
+		A0154BA0679844520EFD4E58 /* Pods-MailSwipe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MailSwipe.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MailSwipe/Pods-MailSwipe.debug.xcconfig"; sourceTree = "<group>"; };
+		A3440E0D1DECA7520014F826 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A359325C1D6C196200B3AFE7 /* MailSwipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MailSwipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A359325F1D6C196200B3AFE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A35932611D6C196200B3AFE7 /* MailSwipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailSwipeViewController.swift; sourceTree = "<group>"; };
@@ -39,6 +48,13 @@
 		A37E91421D6D625E0000F891 /* EmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailViewController.swift; sourceTree = "<group>"; };
 		A3A8BC9A1D77ECD1007E4A45 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Date+Extension.swift"; path = "Extensions/Date+Extension.swift"; sourceTree = "<group>"; };
 		A3A8BC9E1D780C97007E4A45 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Extension.swift"; path = "Extensions/UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		A3D58D0A1D8C988A009358CA /* DPDConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DPDConstants.swift; path = ../Pods/DropDown/DropDown/helpers/DPDConstants.swift; sourceTree = "<group>"; };
+		A3D58D0B1D8C988A009358CA /* DPDKeyboardListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DPDKeyboardListener.swift; path = ../Pods/DropDown/DropDown/helpers/DPDKeyboardListener.swift; sourceTree = "<group>"; };
+		A3D58D0C1D8C988A009358CA /* DPDUIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DPDUIView+Extension.swift"; path = "../Pods/DropDown/DropDown/helpers/DPDUIView+Extension.swift"; sourceTree = "<group>"; };
+		A3D58D0D1D8C988A009358CA /* DropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DropDown.swift; path = ../Pods/DropDown/DropDown/src/DropDown.swift; sourceTree = "<group>"; };
+		A3D58D0E1D8C988A009358CA /* DropDown+Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DropDown+Appearance.swift"; path = "../Pods/DropDown/DropDown/src/DropDown+Appearance.swift"; sourceTree = "<group>"; };
+		A3D58D0F1D8C988A009358CA /* DropDownCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DropDownCell.swift; path = ../Pods/DropDown/DropDown/src/DropDownCell.swift; sourceTree = "<group>"; };
+		A3D58D161D8C989A009358CA /* DropDownCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DropDownCell.xib; path = ../Pods/DropDown/DropDown/resources/DropDownCell.xib; sourceTree = "<group>"; };
 		A3EDBA871D6E055A002D3C6C /* MailSwipe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MailSwipe.entitlements; sourceTree = "<group>"; };
 		A3F12DBA1D6D69B900B9DA00 /* NiceButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NiceButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -48,17 +64,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2324C829B25CFD49BD4BAD72 /* Pods_MailSwipe.framework in Frameworks */,
+				552F30994C4793364298FB4C /* Pods_MailSwipe.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A168A2AEFCA40D6DF9BD5636 /* Frameworks */ = {
+		3F9B6593661F7E4E46DD3C33 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				314FE50219DC3607C500849C /* Pods_MailSwipe.framework */,
+				15CBD36E12330695C75A9C88 /* Pods_MailSwipe.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -68,8 +84,8 @@
 			children = (
 				A359325E1D6C196200B3AFE7 /* MailSwipe */,
 				A359325D1D6C196200B3AFE7 /* Products */,
-				C9CB8344FA6B5D8D7788429F /* Pods */,
-				A168A2AEFCA40D6DF9BD5636 /* Frameworks */,
+				ACF5493BBBCF1360CDD50AE8 /* Pods */,
+				3F9B6593661F7E4E46DD3C33 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -84,6 +100,7 @@
 		A359325E1D6C196200B3AFE7 /* MailSwipe */ = {
 			isa = PBXGroup;
 			children = (
+				A3D58D091D8C9882009358CA /* DropDown */,
 				A37E91411D6D622A0000F891 /* Supporting Files */,
 				A35932751D6C400B00B3AFE7 /* Extensions */,
 				A359325F1D6C196200B3AFE7 /* AppDelegate.swift */,
@@ -114,15 +131,30 @@
 				A35932661D6C196200B3AFE7 /* Assets.xcassets */,
 				A35932681D6C196200B3AFE7 /* LaunchScreen.storyboard */,
 				A35932711D6C23A000B3AFE7 /* GoogleService-Info.plist */,
+				A3440E0D1DECA7520014F826 /* Constants.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		C9CB8344FA6B5D8D7788429F /* Pods */ = {
+		A3D58D091D8C9882009358CA /* DropDown */ = {
 			isa = PBXGroup;
 			children = (
-				08134F75BC3112F98036A1D7 /* Pods-MailSwipe.debug.xcconfig */,
-				33726683885199C6FF3B0435 /* Pods-MailSwipe.release.xcconfig */,
+				A3D58D161D8C989A009358CA /* DropDownCell.xib */,
+				A3D58D0A1D8C988A009358CA /* DPDConstants.swift */,
+				A3D58D0B1D8C988A009358CA /* DPDKeyboardListener.swift */,
+				A3D58D0C1D8C988A009358CA /* DPDUIView+Extension.swift */,
+				A3D58D0D1D8C988A009358CA /* DropDown.swift */,
+				A3D58D0E1D8C988A009358CA /* DropDown+Appearance.swift */,
+				A3D58D0F1D8C988A009358CA /* DropDownCell.swift */,
+			);
+			name = DropDown;
+			sourceTree = "<group>";
+		};
+		ACF5493BBBCF1360CDD50AE8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A0154BA0679844520EFD4E58 /* Pods-MailSwipe.debug.xcconfig */,
+				8504875FC7E844671492AEE5 /* Pods-MailSwipe.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -134,12 +166,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A359326E1D6C196200B3AFE7 /* Build configuration list for PBXNativeTarget "MailSwipe" */;
 			buildPhases = (
-				900CF043EABBE22179EAF5D8 /* Check Pods Manifest.lock */,
+				5E2FA8A77A30748ECF0BFC5D /* [CP] Check Pods Manifest.lock */,
 				A35932581D6C196200B3AFE7 /* Sources */,
 				A35932591D6C196200B3AFE7 /* Frameworks */,
 				A359325A1D6C196200B3AFE7 /* Resources */,
-				B7756FE535DF293757AED36D /* Embed Pods Frameworks */,
-				48757CD108B915F7F3A20221 /* Copy Pods Resources */,
+				D1E2FEA99BFC56A65894E671 /* [CP] Embed Pods Frameworks */,
+				B26235FC898510DCC8E176C5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -157,7 +189,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = aivantgoyal;
 				TargetAttributes = {
 					A359325B1D6C196200B3AFE7 = {
@@ -199,6 +231,7 @@
 				A359326A1D6C196200B3AFE7 /* LaunchScreen.storyboard in Resources */,
 				A35932721D6C23A000B3AFE7 /* GoogleService-Info.plist in Resources */,
 				A35932671D6C196200B3AFE7 /* Assets.xcassets in Resources */,
+				A3D58D171D8C989A009358CA /* DropDownCell.xib in Resources */,
 				A35932651D6C196200B3AFE7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -206,29 +239,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		48757CD108B915F7F3A20221 /* Copy Pods Resources */ = {
+		5E2FA8A77A30748ECF0BFC5D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MailSwipe/Pods-MailSwipe-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		900CF043EABBE22179EAF5D8 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -236,14 +254,29 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		B7756FE535DF293757AED36D /* Embed Pods Frameworks */ = {
+		B26235FC898510DCC8E176C5 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MailSwipe/Pods-MailSwipe-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D1E2FEA99BFC56A65894E671 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,10 +293,17 @@
 			files = (
 				A3F12DBB1D6D69B900B9DA00 /* NiceButton.swift in Sources */,
 				A37E91431D6D625E0000F891 /* EmailViewController.swift in Sources */,
+				A3D58D131D8C988A009358CA /* DropDown.swift in Sources */,
+				A3D58D141D8C988A009358CA /* DropDown+Appearance.swift in Sources */,
 				A35932621D6C196200B3AFE7 /* MailSwipeViewController.swift in Sources */,
+				A3440E0E1DECA7520014F826 /* Constants.swift in Sources */,
+				A3D58D111D8C988A009358CA /* DPDKeyboardListener.swift in Sources */,
+				A3D58D121D8C988A009358CA /* DPDUIView+Extension.swift in Sources */,
 				A35932741D6C400700B3AFE7 /* String+Extension.swift in Sources */,
 				A3A8BC9F1D780C97007E4A45 /* UIViewController+Extension.swift in Sources */,
 				A35932601D6C196200B3AFE7 /* AppDelegate.swift in Sources */,
+				A3D58D151D8C988A009358CA /* DropDownCell.swift in Sources */,
+				A3D58D101D8C988A009358CA /* DPDConstants.swift in Sources */,
 				A36ADF1C1D79326D00AFA61F /* NotificationManager.swift in Sources */,
 				A3A8BC9B1D77ECD1007E4A45 /* Date+Extension.swift in Sources */,
 			);
@@ -388,7 +428,7 @@
 		};
 		A359326F1D6C196200B3AFE7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 08134F75BC3112F98036A1D7 /* Pods-MailSwipe.debug.xcconfig */;
+			baseConfigurationReference = A0154BA0679844520EFD4E58 /* Pods-MailSwipe.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -396,6 +436,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = WRDKFK258V;
 				INFOPLIST_FILE = MailSwipe/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aivantgoyal.MailSwipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -405,7 +446,7 @@
 		};
 		A35932701D6C196200B3AFE7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 33726683885199C6FF3B0435 /* Pods-MailSwipe.release.xcconfig */;
+			baseConfigurationReference = 8504875FC7E844671492AEE5 /* Pods-MailSwipe.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -413,6 +454,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = WRDKFK258V;
 				INFOPLIST_FILE = MailSwipe/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aivantgoyal.MailSwipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
